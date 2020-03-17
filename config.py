@@ -89,6 +89,10 @@ class DeadlineDialog(QDialog):
         self.cal.setGeometry(100,100,300,300)
         self.deckBox = QComboBox()
         for deck in sorted(aqt.mw.col.decks.allNames()):
+            deckId=mw.col.decks.byName(deck)['id']
+            new_cards = mw.col.db.scalar("""select count() from cards where type = 0 and queue != -1 and did = ?""", deckId)
+            if(new_cards<1):
+                continue
             self.deckBox.addItem(deck)
         layout.addWidget(self.deckBox)
         layout.addWidget(self.cal)

@@ -11,7 +11,5 @@ Inspiration was taken from https://ankiweb.net/shared/info/1102281552 and https:
 1. Check if a config already exists for a given deck when adding
 	This is necessary as you’re able currently to overwrite configs by adding the same one multiple times. this will create multiple option groups
 2. Add labels to the config screen, detailing what the calendar and dropdown are
-3. Only display decks in the deadline add dialog that have cards in it
-	This is necessary especially with hierarchal decks. If you have a deck composed of subdecks, where there are no cards in the deck; the deadline won't operate as expected and can cause some breakage for the subdecks
-4. Clean up old code; remove unnecessary bits
-5. Submit addon to https://ankiweb.net/shared/addons/2.1
+3. Clean up old code; remove unnecessary bits
+4. Submit addon to https://ankiweb.net/shared/addons/2.1
