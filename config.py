@@ -88,7 +88,7 @@ class DeadlineDialog(QDialog):
         self.cal.move(0, 0)
         self.cal.setGeometry(100,100,300,300)
         self.deckBox = QComboBox()
-        for deck in aqt.mw.col.decks.allNames():
+        for deck in sorted(aqt.mw.col.decks.allNames()):
             self.deckBox.addItem(deck)
         layout.addWidget(self.deckBox)
         layout.addWidget(self.cal)
