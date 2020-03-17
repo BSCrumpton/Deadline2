@@ -74,8 +74,13 @@ class DeadlineDialog(QDialog):
         self.fillFields()
         mw.addonManager.writeConfig(__name__, self.deadlines)
         dconf = mw.col.decks.dconf
-        id = mw.col.decks.confId(deck)
-        mw.col.decks.byName(deck)['conf']=id
+        tempID=0
+        for confId,conf in dconf.items():
+            if(conf['name']==deck):
+                tempID=confId
+        if(tempID==0):
+            tempID = mw.col.decks.confId(deck)
+        mw.col.decks.byName(deck)['conf']=tempID
 
     def onAdd(self):
         self.user=""
