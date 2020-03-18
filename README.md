@@ -8,7 +8,6 @@ Next, folks asked if I could make it a little bit easier to use by creating a co
 Inspiration was taken from https://ankiweb.net/shared/info/1102281552 and https://ankiweb.net/shared/info/1374772155 , along with bits of their code. 
 
 ## Work In Progress
-1. Add labels to the config screen, detailing what the calendar and dropdown are
-2. Clean up old code; remove unnecessary bits
-3. Submit addon to https://ankiweb.net/shared/addons/2.1
-4. clean up deck names on the add dialog. All items with 3 hierarchal levels should be pared down to 2 levels, to help reduce the width of the dropdown.
+1. Clean up old code; remove unnecessary bits
+2. Submit addon to https://ankiweb.net/shared/addons/2.1
+3. clean up deck names on the add dialog. All items with 3 hierarchal levels should be pared down to 2 levels, to help reduce the width of the dropdown.

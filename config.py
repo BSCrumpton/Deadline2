@@ -87,6 +87,13 @@ class DeadlineDialog(QDialog):
         self.window=QDialog(self)
         self.window.setWindowTitle("Add new Deadline")
         self.window.resize(500,500)
+        dropdownLayout=QVBoxLayout()
+        dropdownLayout.addStretch()
+        dropdownLabel=QLabel()
+        dropdownLabel2=QLabel()
+        dropdownLabel.setText("Select the deck you want to add a deadline to:")
+        dropdownLabel2.setText("Note: The dealine is when you will see all NEW cards by")
+        dropdownLayout.addWidget(dropdownLabel)
         layout=QHBoxLayout()
         self.cal=QCalendarWidget()
         self.cal.setGridVisible(True)
@@ -99,8 +106,16 @@ class DeadlineDialog(QDialog):
             if(new_cards<1):
                 continue
             self.deckBox.addItem(deck)
-        layout.addWidget(self.deckBox)
-        layout.addWidget(self.cal)
+        dropdownLayout.addWidget(self.deckBox)
+        dropdownLayout.addWidget(dropdownLabel2)
+        dropdownLayout.addStretch()
+        layout.addLayout(dropdownLayout)
+        calLayout=QVBoxLayout()
+        calLabel=QLabel()
+        calLabel.setText("Select your deadline date:")
+        calLayout.addWidget(calLabel)
+        calLayout.addWidget(self.cal)
+        layout.addLayout(calLayout)
         self.okButton = QDialogButtonBox.Ok
         self.buttonBox=QDialogButtonBox(self.okButton)
         self.buttonBox.button(self.okButton).clicked.connect(self.readValues)
@@ -110,6 +125,8 @@ class DeadlineDialog(QDialog):
 
     def onDelete(self):
         toDelete=self.form.fieldList.currentRow()
+        if(toDelete==-1):
+            return
         temp=self.form.fieldList.item(toDelete).text()
         fields=temp.split("}")
         user=fields[0].split("{")[1]
@@ -122,5 +139,4 @@ class DeadlineDialog(QDialog):
         mw.col.decks.remConf(delConfId)
 
     def onHelp(self):
-        #openHelp("fields")
         openLink('http://www.ankingmed.com/how-to-update')
