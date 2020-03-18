@@ -7,7 +7,8 @@ I had originally started off by just making this into an Anki 2.1 compatible add
 Next, folks asked if I could make it a little bit easier to use by creating a configuration menu. 
 Inspiration was taken from https://ankiweb.net/shared/info/1102281552 and https://ankiweb.net/shared/info/1374772155 , along with bits of their code. 
 
+This can be found on ankiweb at: https://ankiweb.net/shared/info/723639202
+
 ## Work In Progress
 1. Clean up old code; remove unnecessary bits
-2. Submit addon to https://ankiweb.net/shared/addons/2.1
-3. clean up deck names on the add dialog. All items with 3 hierarchal levels should be pared down to 2 levels, to help reduce the width of the dropdown.
+2. clean up deck names on the add dialog. All items with 3 hierarchal levels should be pared down to 2 levels, to help reduce the width of the dropdown.
