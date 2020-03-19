@@ -9,6 +9,7 @@ from aqt.utils import showWarning, openHelp, getOnlyText, askUser, showInfo, ope
 
 class DeadlineDialog(QDialog):
     def __init__(self):
+        from . import manualDeadlines
         QDialog.__init__(self, parent=mw) #, Qt.Window)
 
         self.mw = aqt.mw
@@ -19,6 +20,8 @@ class DeadlineDialog(QDialog):
         self.setWindowTitle(_("Deadline") )
         self.form.buttonBox.button(QDialogButtonBox.Help).setAutoDefault(False)
         self.form.buttonBox.button(QDialogButtonBox.Close).setAutoDefault(False)
+        self.form.buttonBox.button(QDialogButtonBox.Close).setText('Process Deadlines')
+        self.form.buttonBox.button(QDialogButtonBox.Close).clicked.connect(manualDeadlines)
         self.fillFields()
         self.setupSignals()
         self.form.fieldList.setCurrentRow(0)
@@ -139,4 +142,4 @@ class DeadlineDialog(QDialog):
         mw.col.decks.remConf(delConfId)
 
     def onHelp(self):
-        openLink('http://www.ankingmed.com/how-to-update')
+        openLink('https://github.com/BSCrumpton/Deadline2')
