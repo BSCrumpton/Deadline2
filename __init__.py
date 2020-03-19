@@ -194,6 +194,9 @@ def manualDeadlines():
 
 manualDeadlineAction = QAction("Process Deadlines", mw)
 manualDeadlineAction.triggered.connect(manualDeadlines)
+configAction = QAction("Configure Deadlines", mw)
+configAction.triggered.connect(DeadlineDialog)
+DeadlineMenu.addAction(configAction)
 DeadlineMenu.addAction(manualDeadlineAction)
 
 # Add hook to adjust Deadlines on load profile
