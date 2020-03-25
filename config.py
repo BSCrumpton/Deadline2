@@ -1,3 +1,11 @@
+# Anki Deadline2
+# Anki 2.1 plugin
+# Author: BSC
+# Version 2_2_1
+# Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
+#              are seen by deadline.
+# License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
+
 import datetime, time, math
 from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
@@ -9,7 +17,6 @@ from aqt.utils import showWarning, openHelp, getOnlyText, askUser, showInfo, ope
 
 class DeadlineDialog(QDialog):
     def __init__(self):
-        from . import manualDeadlines
         QDialog.__init__(self, parent=mw) #, Qt.Window)
 
         self.mw = aqt.mw
@@ -21,7 +28,7 @@ class DeadlineDialog(QDialog):
         self.form.buttonBox.button(QDialogButtonBox.Help).setAutoDefault(False)
         self.form.buttonBox.button(QDialogButtonBox.Close).setAutoDefault(False)
         self.form.buttonBox.button(QDialogButtonBox.Close).setText('Process Deadlines')
-        self.form.buttonBox.button(QDialogButtonBox.Close).clicked.connect(manualDeadlines)
+        self.form.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.callDeadlines)
         self.fillFields()
         self.setupSignals()
         self.form.fieldList.setCurrentRow(0)
@@ -35,18 +42,34 @@ class DeadlineDialog(QDialog):
         self.form.fieldPosition.setParent(None)
         self.form.label_5.setParent(None)
         self.form.sortField.setParent(None)
+        self.popUpLayout=QHBoxLayout()
+        self.popUpLabel = QLabel()
+        self.popUpLabel.setText("Choose Pop-Up Style:")
+        self.popUpBox = QComboBox()
+        self.popUpBox.addItem("Single Summary Pop Up")
+        self.popUpBox.addItem("One Pop Up per Deck")
+        self.popUpLayout.addWidget(self.popUpLabel)
+        self.popUpLayout.addWidget(self.popUpBox)
+        self.form.verticalLayout.addLayout(self.popUpLayout)
         self.resize(500, 500)
 
         self.exec_()
 
-
+    def callDeadlines(self):
+        from . import manualDeadlines
+        tempString=str(self.popUpBox.currentText())
+        if(tempString.find("Single")!=-1):
+            oneOrMany="One"
+        else:
+            oneOrMany="Many"
+        manualDeadlines()
 
     def fillFields(self):
         self.form.fieldList.clear()
-        for user in self.deadlines:
+        for user in self.deadlines["deadlines"]:
             if user != str(aqt.mw.pm.name):
                 continue
-            for deck, deadline in self.deadlines.get(user).items():
+            for deck, deadline in self.deadlines["deadlines"].get(user).items():
                 if(deadline==""):
                     continue
                 self.form.fieldList.addItem("user:{{{}}} deck:{{{}}} date:{{{}}}".format(user, deck,deadline))
@@ -68,9 +91,9 @@ class DeadlineDialog(QDialog):
         self.deck=deck
         self.date=date
         self.window.close()
-        if(not self.user in self.deadlines):
-            self.deadlines[self.user]={}
-        self.deadlines[self.user][self.deck]=self.date
+        if(not self.user in self.deadlines["deadlines"]):
+            self.deadlines["deadlines"][self.user]={}
+        self.deadlines["deadlines"][self.user][self.deck]=self.date
         self.user=""
         self.deck=""
         self.date=""
@@ -135,7 +158,7 @@ class DeadlineDialog(QDialog):
         user=fields[0].split("{")[1]
         deck=fields[1].split("{")[1]
         date=fields[2].split("{")[1]
-        self.deadlines.get(user).pop(deck)
+        self.deadlines["deadlines"].get(user).pop(deck)
         self.fillFields()
         mw.addonManager.writeConfig(__name__, self.deadlines)
         delConfId=mw.col.decks.byName(deck)['conf']

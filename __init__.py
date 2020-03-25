@@ -1,7 +1,8 @@
-# Anki Deadline
+# Anki Deadline2
 # Anki 2.1 plugin
-# Author: EJS
-# Version 0.1
+# OriginalAuthor: EJS
+# UpdatedAuthor: BSC
+# Version 2_2_1
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
@@ -16,37 +17,8 @@ from aqt.utils import showWarning, openHelp, getOnlyText, askUser, showInfo, ope
 from .config import DeadlineDialog
 
 deadlines = mw.addonManager.getConfig(__name__)
-# deadlines={}
 
-# ADD DEADLINES HERE
-# One definition for each profile (default profile is User 1)
-#    deadlines['User 1'] = ... for User 1
-#    deadlines['Tom'] = ... for Tom's profile
-#    deadlines['Jerry'] = ... for Jerry's profile
-#    etc.
-#
-# Format:  ["OGName", "DeadlineDate"]
-#        OGName = "Options Group Name"
-#        DeadlineDate = last day of studying ("YYYY-MM-DD")
-# Examples:
-# deadlines['profile name'] = [
-#           ["Silly Cards", "2017-01-01"],
-#           ["Options Group 2", "2018-01-01"],
-#           etc... (**no comma afer the last pair**)
-#         ]
-#
-#     Tip: The whole string must be enclosed within square brackets 
-#          and each name/date pair must be enclosed within its own 
-#          set of square brackets. INCLUDE a COMMA between deadlines,
-#          but not between the last deadline and the final ] bracket.
-#
-#  *Deadline date is the *last day of new cards*, not the day after
-#   all new card should be seen.
-# Format:  [["OGName", "YYYY-MM-DD"]]
 mw.addonManager.setConfigAction(__name__, DeadlineDialog)
-# deadlines['User 1'] = [
-#         ["ETC", "2019-09-05"], ["NeuralFx", "2019-09-19"], ["IHP", "2019-10-03"], ["Nutrition", "2019-10-17"], ["EBM", "2019-10-24"], ["Endocrine", "2019-10-24"], ["AgingDying", "2019-11-14"], ["Prologue2", "2019-12-19"], ["SMBJ", "2020-01-30"], ["Pulmonary", "2020-03-05"], ["Cardiovascular", "2020-04-09"], ["GI_Oral", "2020-05-14"], ["GI_Written", "2020-05-17"], ["Renal", "2020-06-18"], ["Endo/Repro", "2020-08-13"], ["Heme", "2020-09-03"], ["Neuro1", "2020-10-08"], ["Neuro2", "2020-11-05"]
-#         ]
 
 # IF YOU FIND THIS ADDON HELPFUL, PLEASE CONSIDER MAKING A $1 DONATION
 # USING THIS LINK: https://paypal.me/eshapard/1
@@ -176,10 +148,20 @@ def calc_new_cards_per_day(name, days_left, silent=True):
 # Main Function
 def allDeadlines(silent=True):
     deadlines = mw.addonManager.getConfig(__name__)
+    # In the future, line 152-160 can be removed. this is to change the way that I store the config without breaking peoples compatability
+    deadlines.pop("test",1)
+    if(not "deadlines" in deadlines):
+        temp={}
+        temp["deadlines"]={}
+        for profile,profile_deadlines in deadlines.items():
+            temp["deadlines"][profile]=profile_deadlines
+            temp["deadlines"].append(tempdict)
+        deadlines=temp
+        mw.addonManager.writeConfig(__name__, deadlines)
     profile = str(aqt.mw.pm.name)
     include_today = True  # include today in the number of days left
-    if profile in deadlines:
-        for deck,date in deadlines.get(profile).items():
+    if profile in deadlines["deadlines"]:
+        for deck,date in deadlines["deadlines"].get(profile).items():
             # new_cards, new_today = new_cards_in_settings_group(name)
             days_left = days_until_deadline(date, include_today)
             # Change per_day amount if there's still time
