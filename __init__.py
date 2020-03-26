@@ -139,10 +139,8 @@ def update_new_cards_per_day(name, per_day):
 def calc_new_cards_per_day(name, days_left, silent=True):
     new_cards, new_today = new_cards_in_settings_group(name)
     per_day = cards_per_day((new_cards + new_today), days_left)
-    logString="%s\n\nNew cards seen today: %s\nNew cards remaining: %s\nDays left: %s\nNew cards per day: %s" % (name, new_today, new_cards, days_left, per_day)
-    if not silent:
-        utils.showInfo(logString)
     update_new_cards_per_day(name, per_day)
+    return (name, new_today, new_cards, days_left, per_day)
 
 
 # Main Function
@@ -160,6 +158,7 @@ def allDeadlines(silent=True):
         mw.addonManager.writeConfig(__name__, deadlines)
     profile = str(aqt.mw.pm.name)
     include_today = True  # include today in the number of days left
+    tempLogString=""
     if profile in deadlines["deadlines"]:
         for deck,date in deadlines["deadlines"].get(profile).items():
             # new_cards, new_today = new_cards_in_settings_group(name)
@@ -167,12 +166,41 @@ def allDeadlines(silent=True):
             # Change per_day amount if there's still time
             #    before the deadline
             if days_left:
-                calc_new_cards_per_day(deck, days_left, silent)
+                (name, new_today, new_cards, days_left, per_day)=calc_new_cards_per_day(deck, days_left, silent)
+                if(deadlines.get("oneOrMany","")=="Many"):
+                    if not silent:
+                        logString="%s\n\nNew cards seen today: %s\nNew cards remaining: %s\nDays left: %s\nNew cards per day: %s" % (name, new_today, new_cards, days_left, per_day)
+                        utils.showInfo(logString)
+                else:
+                    tempLogString+="%s\nNew cards seen today: %s\nNew cards remaining: %s\nDays left: %s\nNew cards per day: %s\n\n" % (name, new_today, new_cards, days_left, per_day)
+    if(deadlines.get("oneOrMany","One")=="One"):
+        if not silent:
+            summaryPopup(tempLogString)
     aqt.mw.deckBrowser.refresh()
 
 #Manual Version
 def manualDeadlines():
     allDeadlines(False)
+
+def summaryPopup(text):
+    parent = aqt.mw.app.activeWindow() or aqt.mw
+    popup=QDialog(parent)
+    popup.resize(500,500)
+    layout=QVBoxLayout()
+    scroll=QScrollArea()
+    textbox=QLabel(text)
+    scroll.setWidget(textbox)
+    scroll.ensureWidgetVisible(textbox)
+    layout.addWidget(scroll)
+    okButton = QDialogButtonBox.Ok
+    buttonBox=QDialogButtonBox(okButton)
+    buttonBox.button(okButton).clicked.connect(closeSummary)
+    layout.addWidget(buttonBox)
+    popup.setLayout(layout)
+    popup.show()
+
+def closeSummary():
+    aqt.mw.app.activeWindow().close()
 
 manualDeadlineAction = QAction("Process Deadlines", mw)
 manualDeadlineAction.triggered.connect(manualDeadlines)

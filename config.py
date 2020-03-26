@@ -48,6 +48,10 @@ class DeadlineDialog(QDialog):
         self.popUpBox = QComboBox()
         self.popUpBox.addItem("Single Summary Pop Up")
         self.popUpBox.addItem("One Pop Up per Deck")
+        if(self.deadlines.get("oneOrMany","")=="Many"):
+            self.popUpBox.setCurrentIndex(1)
+        else:
+            self.popUpBox.setCurrentIndex(0)
         self.popUpLayout.addWidget(self.popUpLabel)
         self.popUpLayout.addWidget(self.popUpBox)
         self.form.verticalLayout.addLayout(self.popUpLayout)
@@ -59,9 +63,10 @@ class DeadlineDialog(QDialog):
         from . import manualDeadlines
         tempString=str(self.popUpBox.currentText())
         if(tempString.find("Single")!=-1):
-            oneOrMany="One"
+            self.deadlines["oneOrMany"]="One"
         else:
-            oneOrMany="Many"
+            self.deadlines["oneOrMany"]="Many"
+        mw.addonManager.writeConfig(__name__, self.deadlines)
         manualDeadlines()
 
     def fillFields(self):
@@ -94,6 +99,11 @@ class DeadlineDialog(QDialog):
         if(not self.user in self.deadlines["deadlines"]):
             self.deadlines["deadlines"][self.user]={}
         self.deadlines["deadlines"][self.user][self.deck]=self.date
+        tempString=str(self.popUpBox.currentText())
+        if(tempString.find("Single")!=-1):
+            self.deadlines["oneOrMany"]="One"
+        else:
+            self.deadlines["oneOrMany"]="Many"
         self.user=""
         self.deck=""
         self.date=""
