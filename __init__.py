@@ -153,7 +153,6 @@ def allDeadlines(silent=True):
         temp["deadlines"]={}
         for profile,profile_deadlines in deadlines.items():
             temp["deadlines"][profile]=profile_deadlines
-            temp["deadlines"].append(tempdict)
         deadlines=temp
         mw.addonManager.writeConfig(__name__, deadlines)
     profile = str(aqt.mw.pm.name)
