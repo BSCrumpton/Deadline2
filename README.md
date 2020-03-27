@@ -12,5 +12,4 @@ This can be found on ankiweb at: https://ankiweb.net/shared/info/723639202
 ## Work In Progress
 1. Clean up old code; remove unnecessary bits
 2. clean up deck names on the add dialog. All items with 3 hierarchal levels should be pared down to 2 levels, to help reduce the width of the dropdown.
-3. Add dropdown to select what youw ant done in the case of a manual deadline update: popup for every deck, a single popup for the entire operation, or no popup
-4. Better ensure that when you update the addon, no deadlines are "lost"
+3. Better ensure that when you update the addon, no deadlines are "lost"
