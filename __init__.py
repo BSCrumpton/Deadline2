@@ -41,10 +41,11 @@ def new_cards_in_deck(deck_id):
 
 # Find settings group ID
 def find_settings_group_id(name):
-    dconf = mw.col.decks.dconf
+    dconf = mw.col.decks.all_config()
     for k in dconf:
-        if dconf[k]['name'] == name:
-            return k
+        if k['name'] == name:
+            return k['id']
+            # All I want is the group ID
     return False
 
 
@@ -128,11 +129,14 @@ def cards_per_day(new_cards, days_left):
 def update_new_cards_per_day(name, per_day):
     group_id = find_settings_group_id(name)
     if group_id:
-        if group_id in mw.col.decks.dconf:
-            mw.col.decks.dconf[group_id]["new"]["perDay"] = int(per_day)
-            # utils.showInfo("updating deadlines disabled")
-            mw.col.decks.save(mw.col.decks.dconf[group_id])
-            #mw.col.decks.flush()
+        # if we have a group id; check all of thr available confs
+        for dconf in mw.col.decks.all_config():
+            if (group_id==dconf.get('id')):
+                # if I found the config that I'm trying to update, updat ethe config
+                dconf["new"]["perDay"] = int(per_day)
+                # utils.showInfo("updating deadlines disabled")
+                mw.col.decks.save(dconf)
+                #mw.col.decks.flush()
 
 
 # Calc new cards per day
