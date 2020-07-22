@@ -66,7 +66,8 @@ def new_cards_in_settings_group(name):
     group_id = find_settings_group_id(name)
     if group_id:
         # Find decks and cycle through
-        decks = find_decks_in_settings_group(group_id)
+        # decks = find_decks_in_settings_group(group_id)
+        decks= mw.col.decks.didsForConf({"id":group_id})
         for d in decks:
             new_cards += new_cards_in_deck(d)
             new_today += first_seen_cards_in_deck(d)
