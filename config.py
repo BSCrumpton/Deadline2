@@ -116,7 +116,9 @@ class DeadlineDialog(QDialog):
                 tempID=conf['id']
         if(tempID==0):
             tempID = mw.col.decks.confId(deck)
-        mw.col.decks.byName(deck)['conf']=tempID
+        deckToUpdate=mw.col.decks.byName(deck)
+        deckToUpdate['conf']=tempID
+        mw.col.decks.save(deckToUpdate)
 
     def onAdd(self):
         self.user=""
