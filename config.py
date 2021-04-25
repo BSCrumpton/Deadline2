@@ -10,7 +10,7 @@ import datetime, time, math
 from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
 from aqt import *
-from . import DeadlineForm
+from . import ConfigForm
 from aqt.main import AnkiQt
 from anki.utils import intTime
 from aqt.utils import showWarning, openHelp, getOnlyText, askUser, showInfo, openLink
@@ -23,7 +23,7 @@ class DeadlineDialog(QDialog):
         self.mw = aqt.mw
         self.deadlines = mw.addonManager.getConfig(__name__)
         self.deadlines.pop("test")
-        self.form = DeadlineForm.Ui_Dialog()
+        self.form = ConfigForm.Ui_Dialog()
         self.form.setupUi(self)
         self.setWindowTitle(_("Deadline") )
         self.form.ProcessDeadlineBox.clicked.connect(self.callDeadlines)
