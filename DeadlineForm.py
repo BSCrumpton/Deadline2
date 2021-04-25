@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'form.ui'
+# Form implementation generated from reading ui file 'DeadlineForm\form.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -35,9 +35,9 @@ class Ui_Dialog(object):
         self.AddDeadlineButton = QtWidgets.QPushButton(Dialog)
         self.AddDeadlineButton.setObjectName("AddDeadlineButton")
         self.verticalLayout_3.addWidget(self.AddDeadlineButton)
-        self.EditDeadlineButton = QtWidgets.QPushButton(Dialog)
-        self.EditDeadlineButton.setObjectName("EditDeadlineButton")
-        self.verticalLayout_3.addWidget(self.EditDeadlineButton)
+        # self.EditDeadlineButton = QtWidgets.QPushButton(Dialog)
+        # self.EditDeadlineButton.setObjectName("EditDeadlineButton")
+        # self.verticalLayout_3.addWidget(self.EditDeadlineButton)
         self.DeleteDeadlineButton = QtWidgets.QPushButton(Dialog)
         self.DeleteDeadlineButton.setObjectName("DeleteDeadlineButton")
         self.verticalLayout_3.addWidget(self.DeleteDeadlineButton)
@@ -87,7 +87,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "editing_fields"))
         self.AddDeadlineButton.setText(_translate("Dialog", "Add Deadline"))
-        self.EditDeadlineButton.setText(_translate("Dialog", "Edit Deadline"))
+        # self.EditDeadlineButton.setText(_translate("Dialog", "Edit Deadline"))
         self.DeleteDeadlineButton.setText(_translate("Dialog", "Delete Deadline"))
         self.OneOrManyLabel.setText(_translate("Dialog", "Choose Pop-Up Style"))
         self.OneOrManyBox.setItemText(0, _translate("Dialog", "Single Summary Pop Up"))
