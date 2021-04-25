@@ -10,6 +10,7 @@ import datetime, time, math
 from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
 from aqt import *
+from . import DeadlineForm
 from aqt.main import AnkiQt
 from anki.utils import intTime
 from aqt.utils import showWarning, openHelp, getOnlyText, askUser, showInfo, openLink
@@ -22,46 +23,23 @@ class DeadlineDialog(QDialog):
         self.mw = aqt.mw
         self.deadlines = mw.addonManager.getConfig(__name__)
         self.deadlines.pop("test")
-        self.form = aqt.forms.fields.Ui_Dialog()
+        self.form = DeadlineForm.Ui_Dialog()
         self.form.setupUi(self)
         self.setWindowTitle(_("Deadline") )
-        self.form.buttonBox.button(QDialogButtonBox.Help).setAutoDefault(False)
-        self.form.buttonBox.button(QDialogButtonBox.Save).setAutoDefault(False)
-        self.form.buttonBox.button(QDialogButtonBox.Save).setText('Process Deadlines')
-        self.form.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.callDeadlines)
+        self.form.ProcessDeadlineBox.clicked.connect(self.callDeadlines)
         self.fillFields()
         self.setupSignals()
-        self.form.fieldList.setCurrentRow(0)
-        self.form.rtl.setParent(None)
-        self.form.fontFamily.setParent(None)
-        self.form.fontSize.setParent(None)
-        self.form.sticky.setParent(None)
-        self.form.label_18.setParent(None)
-        self.form.fontFamily.setParent(None)
-        self.form.fieldRename.setParent(None)
-        self.form.fieldPosition.setParent(None)
-        self.form.label_5.setParent(None)
-        self.form.sortField.setParent(None)
-        self.popUpLayout=QHBoxLayout()
-        self.popUpLabel = QLabel()
-        self.popUpLabel.setText("Choose Pop-Up Style:")
-        self.popUpBox = QComboBox()
-        self.popUpBox.addItem("Single Summary Pop Up")
-        self.popUpBox.addItem("One Pop Up per Deck")
         if(self.deadlines.get("oneOrMany","")=="Many"):
-            self.popUpBox.setCurrentIndex(1)
+            self.form.OneOrManyBox.setCurrentIndex(1)
         else:
-            self.popUpBox.setCurrentIndex(0)
-        self.popUpLayout.addWidget(self.popUpLabel)
-        self.popUpLayout.addWidget(self.popUpBox)
-        self.form.verticalLayout.addLayout(self.popUpLayout)
+            self.form.OneOrManyBox.setCurrentIndex(0)
         self.resize(500, 500)
 
         self.exec_()
 
     def callDeadlines(self):
         from . import manualDeadlines
-        tempString=str(self.popUpBox.currentText())
+        tempString=str(self.form.OneOrManyBox.currentText())
         if(tempString.find("Single")!=-1):
             self.deadlines["oneOrMany"]="One"
         else:
@@ -81,8 +59,8 @@ class DeadlineDialog(QDialog):
 
     def setupSignals(self):
         f = self.form
-        f.fieldAdd.clicked.connect(self.onAdd)
-        f.fieldDelete.clicked.connect(self.onDelete)
+        f.AddDeadlineButton.clicked.connect(self.onAdd)
+        f.DeleteDeadlineButton.clicked.connect(self.onDelete)
         f.buttonBox.helpRequested.connect(self.onHelp)
 
     def readValues(self):
@@ -99,7 +77,7 @@ class DeadlineDialog(QDialog):
         if(not self.user in self.deadlines["deadlines"]):
             self.deadlines["deadlines"][self.user]={}
         self.deadlines["deadlines"][self.user][self.deck]=self.date
-        tempString=str(self.popUpBox.currentText())
+        tempString=str(self.form.OneOrManyBox.currentText())
         if(tempString.find("Single")!=-1):
             self.deadlines["oneOrMany"]="One"
         else:
@@ -162,19 +140,18 @@ class DeadlineDialog(QDialog):
         self.window.show()        
 
     def onDelete(self):
-        toDelete=self.form.fieldList.currentRow()
-        if(toDelete==-1):
-            return
-        temp=self.form.fieldList.item(toDelete).text()
-        fields=temp.split("}")
-        user=fields[0].split("{")[1]
-        deck=fields[1].split("{")[1]
-        date=fields[2].split("{")[1]
-        self.deadlines["deadlines"].get(user).pop(deck)
-        self.fillFields()
-        mw.addonManager.writeConfig(__name__, self.deadlines)
-        delConfId=mw.col.decks.byName(deck)['conf']
-        mw.col.decks.remConf(delConfId)
+        while self.form.fieldList.selectedIndexes():
+            temp=self.form.fieldList.item(self.form.fieldList.selectedIndexes()[0].row()).text()
+            self.form.fieldList.takeItem(self.form.fieldList.selectedIndexes()[0].row())
+            fields=temp.split("}")
+            user=fields[0].split("{")[1]
+            deck=fields[1].split("{")[1]
+            date=fields[2].split("{")[1]
+            self.deadlines["deadlines"].get(user).pop(deck)
+            mw.addonManager.writeConfig(__name__, self.deadlines)
+            delConfId=mw.col.decks.byName(deck)['conf']
+            mw.col.decks.remConf(delConfId)
+        # self.fillFields()
 
     def onHelp(self):
         openLink('https://github.com/BSCrumpton/Deadline2')

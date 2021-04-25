@@ -1,1 +1,1 @@
-{"config": {"User 1": {"Zanki Pharmacology::Neuro Pharmacology ": "2020-03-30", "Zanki Pharmacology::Autonomic Drugs": "2020-03-25"}, "User 2": {}, "User3": {"Tester": "2020-03-23"}}, "disabled": false, "mod": 0, "conflicts": [], "max_point_version": 0, "min_point_version": 0, "branch_index": 0}
+{"config": {"deadlines": {"User 1": {}, "User 2": {}, "User3": {}}, "oneOrMany": "One"}, "disabled": false, "mod": 0, "conflicts": [], "max_point_version": 0, "min_point_version": 0, "branch_index": 0}
