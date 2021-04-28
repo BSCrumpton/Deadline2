@@ -10,7 +10,7 @@ import datetime, time, math
 from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
 from aqt import *
-from . import ConfigForm
+from . import ConfigForm, CalForm
 from aqt.main import AnkiQt
 from anki.utils import intTime
 from aqt.utils import showWarning, openHelp, getOnlyText, askUser, showInfo, openLink
@@ -34,7 +34,9 @@ class DeadlineDialog(QDialog):
         else:
             self.form.OneOrManyBox.setCurrentIndex(0)
         self.resize(500, 500)
-
+        self.Calwindow=QDialog(self)
+        self.LayoutForCal=CalForm.Ui_Dialog()
+        self.LayoutForCal.setupUi(self.Calwindow)
         self.exec_()
 
     def callDeadlines(self):
@@ -65,15 +67,15 @@ class DeadlineDialog(QDialog):
 
     def readValues(self):
         user=str(aqt.mw.pm.name)
-        deck=str(self.deckBox.currentText())
-        year=self.cal.selectedDate().year()
-        month=self.cal.selectedDate().month()
-        day=self.cal.selectedDate().day()
+        deck=str(self.LayoutForCal.comboBox.currentText())
+        year=self.LayoutForCal.calendarWidget.selectedDate().year()
+        month=self.LayoutForCal.calendarWidget.selectedDate().month()
+        day=self.LayoutForCal.calendarWidget.selectedDate().day()
         date="{}-{}-{}".format(year,str(month).zfill(2),str(day).zfill(2))
         self.user=user
         self.deck=deck
         self.date=date
-        self.window.close()
+        self.Calwindow.close()
         if(not self.user in self.deadlines["deadlines"]):
             self.deadlines["deadlines"][self.user]={}
         self.deadlines["deadlines"][self.user][self.deck]=self.date
@@ -99,45 +101,16 @@ class DeadlineDialog(QDialog):
         mw.col.decks.save(deckToUpdate)
 
     def onAdd(self):
-        self.user=""
-        self.window=QDialog(self)
-        self.window.setWindowTitle("Add new Deadline")
-        self.window.resize(500,500)
-        dropdownLayout=QVBoxLayout()
-        dropdownLayout.addStretch()
-        dropdownLabel=QLabel()
-        dropdownLabel2=QLabel()
-        dropdownLabel.setText("Select the deck you want to add a deadline to:")
-        dropdownLabel2.setText("Note: The dealine is when you will see all NEW cards by")
-        dropdownLayout.addWidget(dropdownLabel)
-        layout=QHBoxLayout()
-        self.cal=QCalendarWidget()
-        self.cal.setGridVisible(True)
-        self.cal.move(0, 0)
-        self.cal.setGeometry(100,100,300,300)
-        self.deckBox = QComboBox()
+        self.Calwindow.show()
+        self.user = ""
+        self.LayoutForCal.comboBox.clear()
         for deck in sorted(aqt.mw.col.decks.allNames()):
             deckId=mw.col.decks.byName(deck)['id']
             new_cards = mw.col.db.scalar("""select count() from cards where type = 0 and queue != -1 and did = ?""", deckId)
             if(new_cards<1):
                 continue
-            self.deckBox.addItem(deck)
-        dropdownLayout.addWidget(self.deckBox)
-        dropdownLayout.addWidget(dropdownLabel2)
-        dropdownLayout.addStretch()
-        layout.addLayout(dropdownLayout)
-        calLayout=QVBoxLayout()
-        calLabel=QLabel()
-        calLabel.setText("Select your deadline date:")
-        calLayout.addWidget(calLabel)
-        calLayout.addWidget(self.cal)
-        layout.addLayout(calLayout)
-        self.okButton = QDialogButtonBox.Ok
-        self.buttonBox=QDialogButtonBox(self.okButton)
-        self.buttonBox.button(self.okButton).clicked.connect(self.readValues)
-        layout.addWidget(self.buttonBox)
-        self.window.setLayout(layout)
-        self.window.show()        
+            self.LayoutForCal.comboBox.addItem(deck)
+        self.LayoutForCal.pushButton.clicked.connect(self.readValues)
 
     def onDelete(self):
         while self.form.fieldList.selectedIndexes():

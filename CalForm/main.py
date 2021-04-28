@@ -8,9 +8,9 @@ from PySide2.QtCore import QFile
 from PySide2.QtUiTools import QUiLoader
 
 
-class ConfigForm(QDialog):
+class DeadlineForm(QDialog):
     def __init__(self):
-        super(ConfigForm, self).__init__()
+        super(Deadlineform, self).__init__()
         self.load_ui()
 
     def load_ui(self):
@@ -23,6 +23,6 @@ class ConfigForm(QDialog):
 
 if __name__ == "__main__":
     app = QApplication([])
-    widget = ConfigForm()
+    widget = DeadlineForm()
     widget.show()
     sys.exit(app.exec_())
