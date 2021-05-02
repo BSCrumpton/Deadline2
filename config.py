@@ -37,6 +37,7 @@ class DeadlineDialog(QDialog):
         self.Calwindow=QDialog(self)
         self.LayoutForCal=CalForm.Ui_Dialog()
         self.LayoutForCal.setupUi(self.Calwindow)
+        self.LayoutForCal.pushButton.clicked.connect(self.readValues)
         self.exec_()
 
     def callDeadlines(self):
@@ -110,7 +111,7 @@ class DeadlineDialog(QDialog):
             if(new_cards<1):
                 continue
             self.LayoutForCal.comboBox.addItem(deck)
-        self.LayoutForCal.pushButton.clicked.connect(self.readValues)
+
 
     def onDelete(self):
         while self.form.fieldList.selectedIndexes():
