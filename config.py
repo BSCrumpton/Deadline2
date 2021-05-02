@@ -93,10 +93,13 @@ class DeadlineDialog(QDialog):
         dconf = mw.col.decks.all_config()
         tempID=0
         for conf in dconf:
+            # if the specialized config already exists, use that
             if(conf['name']==deck):
                 tempID=conf['id']
         if(tempID==0):
-            tempID = mw.col.decks.confId(deck)
+            # else, create the new config
+            # TODO: use the new function names to do this
+            tempID = mw.col.decks.confId(deck,mw.col.decks.get_config(1))
         deckToUpdate=mw.col.decks.byName(deck)
         deckToUpdate['conf']=tempID
         mw.col.decks.save(deckToUpdate)
