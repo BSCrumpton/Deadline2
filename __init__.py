@@ -2,7 +2,7 @@
 # Anki 2.1 plugin
 # OriginalAuthor: EJS
 # UpdatedAuthor: BSC
-# Version 2_2_1
+# Version 2_3
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
@@ -20,10 +20,6 @@ deadlines = mw.addonManager.getConfig(__name__)
 
 mw.addonManager.setConfigAction(__name__, DeadlineDialog)
 
-# IF YOU FIND THIS ADDON HELPFUL, PLEASE CONSIDER MAKING A $1 DONATION
-# USING THIS LINK: https://paypal.me/eshapard/1
-
-# ------------Nothing to edit below--------------------------------#
 DeadlineMenu = QMenu("Deadline", mw)
 mw.form.menuTools.addMenu(DeadlineMenu)
 

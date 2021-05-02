@@ -1,7 +1,7 @@
 # Anki Deadline2
 # Anki 2.1 plugin
 # Author: BSC
-# Version 2_2_1
+# Version 2_3
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
@@ -92,6 +92,7 @@ class DeadlineDialog(QDialog):
         mw.addonManager.writeConfig(__name__, self.deadlines)
         dconf = mw.col.decks.all_config()
         tempID=0
+        DeckIDToUpdate= mw.col.decks.id_for_name(deck)
         for conf in dconf:
             # if the specialized config already exists, use that
             if(conf['name']==deck):
@@ -99,8 +100,8 @@ class DeadlineDialog(QDialog):
         if(tempID==0):
             # else, create the new config
             # TODO: use the new function names to do this
-            tempID = mw.col.decks.confId(deck,mw.col.decks.get_config(1))
-        deckToUpdate=mw.col.decks.byName(deck)
+            tempID = mw.col.decks.confId(deck,mw.col.decks.confForDid(DeckIDToUpdate))
+        deckToUpdate = mw.col.decks.byName(deck)
         deckToUpdate['conf']=tempID
         mw.col.decks.save(deckToUpdate)
 
