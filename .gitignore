@@ -1,2 +1,5 @@
 *.ankiaddon
 ankilog.txt
+.idea
+ConfigForm/main.pyproject.user
+CalForm/main.pyproject.user
