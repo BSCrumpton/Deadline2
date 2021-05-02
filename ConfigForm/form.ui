@@ -14,7 +14,7 @@
    <string>editing_fields</string>
   </property>
   <property name="modal">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -109,13 +109,6 @@
       <number>2</number>
      </property>
      <item>
-      <widget class="QPushButton" name="ProcessDeadlineBox">
-       <property name="text">
-        <string>Process Deadlines</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="enabled">
         <bool>true</bool>
@@ -134,6 +127,13 @@
        </property>
        <property name="centerButtons">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ProcessDeadlineBox">
+       <property name="text">
+        <string>Process Deadlines</string>
        </property>
       </widget>
      </item>
