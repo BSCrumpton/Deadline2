@@ -106,6 +106,7 @@ class DeadlineDialog(QDialog):
         mw.col.decks.save(deckToUpdate)
 
     def onAdd(self):
+        # TODO: shorten the display name for decks before adding them
         self.Calwindow.show()
         self.user = ""
         self.LayoutForCal.comboBox.clear()
