@@ -42,6 +42,7 @@ class Ui_Dialog(object):
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.listWidget = QtWidgets.QListWidget(Dialog)
+        self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.listWidget.setObjectName("listWidget")
         self.verticalLayout.addWidget(self.listWidget)
         self.label_2 = QtWidgets.QLabel(Dialog)
