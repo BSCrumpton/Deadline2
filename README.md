@@ -23,3 +23,4 @@ Feel free to contribute! To offer you some guidance, below is my general develop
 To test any code changes live, create a symlink to the anki addons location.
 `mklink /D "C:\Users\USERNAME\AppData\Roaming\Anki2\addons21\Deadline2" "C:\Users\USERNAME\Documents\GitHub\Deadline2"`
 to regenerate any UI features after updating in QT Creator, use something like `pyuic5 CalForm\form.ui -o CalForm.py` from the root of the repo folder.
+To start anki in debug mode, `C:\Program Files\Anki\anki-console.bat` is your friend

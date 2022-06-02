@@ -67,6 +67,7 @@ class DeadlineDialog(QDialog):
         f.buttonBox.helpRequested.connect(self.onHelp)
 
     def readValues(self):
+        # TODO- make secondary pop-up warning about the apply to all sub decks checkbox
         user=str(aqt.mw.pm.name)
         year=self.LayoutForCal.calendarWidget.selectedDate().year()
         month=self.LayoutForCal.calendarWidget.selectedDate().month()
@@ -83,27 +84,34 @@ class DeadlineDialog(QDialog):
         while self.LayoutForCal.listWidget.selectedIndexes():
             deck = self.LayoutForCal.listWidget.item(self.LayoutForCal.listWidget.selectedIndexes()[0].row()).text()
             self.LayoutForCal.listWidget.takeItem(self.LayoutForCal.listWidget.selectedIndexes()[0].row())
-            self.deadlines["deadlines"][user][deck] = date
-            DeckIDToUpdate = mw.col.decks.id_for_name(deck)
-            # Only create a new config if there wasn't already an existing custom one
-            if(mw.col.decks.by_name(deck)['conf']==1):
-                tempID = mw.col.decks.add_config_returning_id(deck, mw.col.decks.config_dict_for_deck_id(DeckIDToUpdate))
-                deckToUpdate = mw.col.decks.by_name(deck)
-                deckToUpdate['conf'] = tempID
-                mw.col.decks.save(deckToUpdate)
-        mw.addonManager.writeConfig(__name__, self.deadlines)
+            self.applyDeadlineForDeck(deck,date)
         self.fillFields()
+
+    def applyDeadlineForDeck(self,deck,date):
+        user = str(aqt.mw.pm.name)
+        childIds = list(mw.col.decks.child_ids(deck))
+        if(childIds and not self.LayoutForCal.checkBox_2.isChecked()):
+            return
+        elif(childIds and self.LayoutForCal.checkBox_2.isChecked()):
+            for child in childIds:
+                childName=mw.col.decks.name(child)
+                self.applyDeadlineForDeck(childName,date)
+            return
+        # Only create a new config if there wasn't already an existing custom one
+        DeckIDToUpdate = mw.col.decks.id_for_name(deck)
+        self.deadlines["deadlines"][user][deck] = date
+        if (mw.col.decks.by_name(deck)['conf'] == 1):
+            tempID = mw.col.decks.add_config_returning_id(deck, mw.col.decks.config_dict_for_deck_id(DeckIDToUpdate))
+            deckToUpdate = mw.col.decks.by_name(deck)
+            deckToUpdate['conf'] = tempID
+            mw.col.decks.save(deckToUpdate)
+        mw.addonManager.writeConfig(__name__, self.deadlines)
 
 
     def onAdd(self):
-        # TODO: Allow all decks, but apply deadlines to subdecks if you have a meta deck
         self.Calwindow.show()
         self.LayoutForCal.listWidget.clear()
         for deck in sorted(aqt.mw.col.decks.all_names()):
-            deckId=mw.col.decks.by_name(deck)['id']
-            new_cards = mw.col.db.scalar("""select count() from cards where type = 0 and queue != -1 and did = ?""", deckId)
-            if(new_cards<1):
-                continue
             self.LayoutForCal.listWidget.addItem(deck)
 
 
