@@ -67,7 +67,9 @@ class DeadlineDialog(QDialog):
         f.buttonBox.helpRequested.connect(self.onHelp)
 
     def readValues(self):
-        # TODO- make secondary pop-up warning about the apply to all sub decks checkbox
+        if(self.LayoutForCal.checkBox_2.isChecked()):
+            if(not utils.askUser("Are you sure you want to continue? The Apply to all Sub-Decks Box is checked")):
+                return
         user=str(aqt.mw.pm.name)
         year=self.LayoutForCal.calendarWidget.selectedDate().year()
         month=self.LayoutForCal.calendarWidget.selectedDate().month()
