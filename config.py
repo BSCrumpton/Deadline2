@@ -1,7 +1,7 @@
 # Anki Deadline2
 # Anki 2.1 plugin
 # Author: BSC
-# Version 2_3
+# Version 2_4_1
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
