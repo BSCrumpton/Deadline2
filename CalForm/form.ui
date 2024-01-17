@@ -32,7 +32,7 @@
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -61,7 +61,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Select the Deck you want to add a deadline to:</string>
+          <string>Select the Decks you want to add a deadline to:</string>
          </property>
         </widget>
        </item>
@@ -82,6 +82,22 @@
          </property>
          <property name="text">
           <string>Note: The deadline is when you will see all NEW cards by</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Note2: If you select a &quot;Meta&quot; Deck, it will only apply to sub-decks (when checked)</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -128,11 +144,22 @@
       </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Add Deadline</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Add Deadline</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_2">
+         <property name="text">
+          <string>Apply to All Sub-Decks</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
