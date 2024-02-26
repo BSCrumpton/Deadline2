@@ -1,15 +1,15 @@
 # Anki Deadline2
 # Anki 2.1 plugin
 # Author: BSC
-# Version 2_4_2
+# Version 2_5
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
 
 import datetime, time, math
-from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
 from aqt import *
+from aqt.qt import *
 from . import ConfigForm, CalForm
 from aqt.main import AnkiQt
 from anki.utils import intTime
@@ -38,7 +38,7 @@ class DeadlineDialog(QDialog):
         self.LayoutForCal=CalForm.Ui_Dialog()
         self.LayoutForCal.setupUi(self.Calwindow)
         self.LayoutForCal.pushButton.clicked.connect(self.readValues)
-        self.exec_()
+        self.exec()
 
     def callDeadlines(self):
         from . import manualDeadlines

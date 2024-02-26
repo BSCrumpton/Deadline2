@@ -2,14 +2,13 @@
 # Anki 2.1 plugin
 # OriginalAuthor: EJS
 # UpdatedAuthor: BSC
-# Version 2_4_2
+# Version 2_5
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
 
 from __future__ import division
 import datetime, time, math
-from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
 from aqt import *
 from aqt.main import AnkiQt
@@ -193,7 +192,7 @@ def summaryPopup(text):
     scroll.setWidget(textbox)
     scroll.ensureWidgetVisible(textbox)
     layout.addWidget(scroll)
-    okButton = QDialogButtonBox.Ok
+    okButton = QDialogButtonBox.StandardButton.Ok
     buttonBox=QDialogButtonBox(okButton)
     buttonBox.button(okButton).clicked.connect(closeSummary)
     layout.addWidget(buttonBox)
