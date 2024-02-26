@@ -9,7 +9,6 @@
 
 from __future__ import division
 import datetime, time, math
-from PyQt5.QtWidgets import *
 from anki.hooks import wrap, addHook
 from aqt import *
 from aqt.main import AnkiQt
@@ -193,7 +192,7 @@ def summaryPopup(text):
     scroll.setWidget(textbox)
     scroll.ensureWidgetVisible(textbox)
     layout.addWidget(scroll)
-    okButton = QDialogButtonBox.Ok
+    okButton = QDialogButtonBox.StandardButton.Ok
     buttonBox=QDialogButtonBox(okButton)
     buttonBox.button(okButton).clicked.connect(closeSummary)
     layout.addWidget(buttonBox)
