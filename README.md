@@ -14,7 +14,6 @@ This can be found on ankiweb at: https://ankiweb.net/shared/info/723639202
 2. clean up deck names on the add dialog. All items with 3 hierarchal levels should be pared down to 2 levels, to help reduce the width of the dropdown.
 3. Better ensure that when you update the addon, no deadlines are "lost"
 4. Whenever you delete a deadline, the original config should be re-applied to the deck
-5. Allow selection of parent deck + all subdecks, and apply deadline to all subdecks
 
 ## Contributing
 Feel free to contribute! To offer you some guidance, below is my general development workflow.

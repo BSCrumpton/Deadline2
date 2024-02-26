@@ -2,7 +2,7 @@
 # Anki 2.1 plugin
 # OriginalAuthor: EJS
 # UpdatedAuthor: BSC
-# Version 2_4_2
+# Version 2_5
 # Description: Adjusts 'New Cards per Day' setting of options group to ensure all cards
 #              are seen by deadline.
 # License: GNU GPL v3 <www.gnu.org/licenses/gpl.html>
